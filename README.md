@@ -4,9 +4,10 @@
 
 ## 快速开始
 
+初始化项目
+
 ```shell
-# 初始化项目
-curl -fsSL https://github.com/singi2016cn/doc-zh-tool/tree/main/bin/init.sh | bash
+curl -fsSL https://raw.githubusercontent.com/singi2016cn/doc-zh-tool/main/bin/init.sh | bash
 ```
 
 ## 可用的命令工具

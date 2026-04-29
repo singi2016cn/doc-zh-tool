@@ -1,31 +1,41 @@
 #!/bin/bash
 
-# 初始化 PHP 官方文档中文翻译项目
-# 逻辑：先拉取工具项目 → 进入项目 → 克隆文档仓库
+# 带重试的 git clone
+git_clone_retry() {
+  local url=$1
+  local dir=$2
+  local max_retry=3
+  local count=0
+
+  while [ $count -lt $max_retry ]; do
+    echo "尝试克隆 $dir ... ($((count+1))/$max_retry)"
+    git clone --depth 1 $url $dir
+    if [ $? -eq 0 ]; then
+      return 0
+    fi
+    count=$((count+1))
+    echo "克隆失败，等待 3 秒后重试..."
+    sleep 3
+  done
+
+  echo "克隆 $dir 最终失败"
+  exit 1
+}
 
 echo "==================================="
-echo "🚀 开始初始化 PHP 文档翻译项目"
+echo "🚀 开始初始化 PHP 文档翻译项目（自动重试）"
 echo "==================================="
 
-# 1. 克隆你的工具项目
-echo "📥 正在下载工具项目..."
 git clone https://github.com/singi2016cn/doc-zh-tool.git
-
-# 2. 进入工具目录（失败则退出）
 cd doc-zh-tool || exit 1
 
-# 3. 克隆英文原文档
-echo "📥 正在克隆英文原文档..."
-git clone https://github.com/php/doc-en.git en
+echo "📥 克隆英文文档..."
+git_clone_retry https://github.com/php/doc-en.git en
 
-# 4. 克隆中文翻译文档
-echo "📥 正在克隆中文翻译文档..."
-git clone https://github.com/php/doc-zh.git zh
+echo "📥 克隆中文文档..."
+git_clone_retry https://github.com/php/doc-zh.git zh
 
-# 5. 克隆文档构建工具
-echo "📥 正在克隆文档构建工具..."
-git clone https://github.com/php/doc-base.git
+echo "📥 克隆构建工具..."
+git_clone_retry https://github.com/php/doc-base.git doc-base
 
-echo -e "\n✅ 项目初始化完成！"
-echo "📂 项目目录结构："
-ls -la
+echo -e "\n✅ 初始化完成！"

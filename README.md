@@ -6,7 +6,7 @@
 
 ```shell
 # 初始化项目
-curl -fsSL https://example.com/your-script.sh | bash
+curl -fsSL https://github.com/singi2016cn/doc-zh-tool/tree/main/bin/init.sh | bash
 ```
 
 ## 可用的命令工具

@@ -9,7 +9,7 @@ git_clone_retry() {
 
   while [ $count -lt $max_retry ]; do
     echo "尝试克隆 $dir ... ($((count+1))/$max_retry)"
-    git clone --depth 1 $url $dir
+    git clone --depth 1 "$url" "$dir"
     if [ $? -eq 0 ]; then
       return 0
     fi
@@ -22,6 +22,16 @@ git_clone_retry() {
   exit 1
 }
 
+# ============== 参数校验 ==============
+if [ $# -ne 1 ]; then
+  echo "用法: $0 <你的中文文档仓库地址>"
+  echo "示例: $0 https://github.com/你的用户名/doc-zh.git"
+  exit 1
+fi
+
+ZH_REPO="$1"
+# =====================================
+
 echo "==================================="
 echo "🚀 开始初始化 PHP 文档翻译项目（自动重试）"
 echo "==================================="
@@ -32,8 +42,8 @@ cd doc-zh-tool || exit 1
 echo "📥 克隆英文文档..."
 git_clone_retry https://github.com/php/doc-en.git en
 
-echo "📥 克隆中文文档..."
-git_clone_retry https://github.com/php/doc-zh.git zh
+echo "📥 克隆中文文档（你指定的仓库）..."
+git_clone_retry "$ZH_REPO" zh
 
 echo "📥 克隆构建工具..."
 git_clone_retry https://github.com/php/doc-base.git doc-base

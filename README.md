@@ -4,10 +4,10 @@
 
 ## 快速开始
 
-初始化项目
+初始化项目,参数是你的克隆中文仓库地址。
 
 ```shell
-curl -fsSL https://raw.githubusercontent.com/singi2016cn/doc-zh-tool/main/bin/init.sh | bash
+curl -fsSL https://raw.githubusercontent.com/singi2016cn/doc-zh-tool/main/bin/init.sh | bash -s -- https://github.com/你的用户名/doc-zh.git
 ```
 
 ## 可用的命令工具

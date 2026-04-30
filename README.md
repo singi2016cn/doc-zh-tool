@@ -27,3 +27,9 @@ curl -fsSL https://raw.githubusercontent.com/singi2016cn/doc-zh-tool/main/bin/in
 ```bash
 bin/list.sh -s /bc | xargs bin/create_file.sh
 ```
+
+搜索 10 个还未翻译的文件，并依次自动填充 hash、维护者后，创建到 zh 目录下
+
+```bash
+bin/list.sh -s /bc -n 10 | xargs -n 1 bin/create_file.sh
+```

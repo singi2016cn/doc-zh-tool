@@ -60,15 +60,24 @@ echo "🔍 计算文件哈希..."
 hash_val=$(bin/en_file_hash.sh "$file_path")
 echo "✅ 哈希值：$hash_val"
 
-# ====================== 核心功能：插入注释 ======================
-echo "🔧 正在插入注释到文件第2行..."
+# ====================== 精准插入逻辑 ======================
+echo "🔧 开始插入注释..."
 
-# 使用 sed 插入两行到第 2 行（兼容 Git Bash/Mac/Linux）
-sed -i.bak -e "2i<!-- \$Revision\$ -->" \
-           -e "2i<!-- EN-Revision: $hash_val Maintainer: $maintainer Status: ready -->" \
-           "$zh_path"
+# 检查目标文件是否已存在 $Revision 行
+if grep -qF '<!-- $Revision$ -->' "$zh_path"; then
+  echo "✅ 已存在 \$Revision\$，在下一行插入 EN-Revision"
+  # 在 $Revision 下一行插入
+  sed -i.bak '/<!-- \$Revision\$ -->/a<!-- EN-Revision: '"$hash_val"' Maintainer: '"$maintainer"' Status: ready -->' "$zh_path"
+else
+  echo "✅ 不存在 \$Revision\$，在第2、3行插入两行"
+  # 第2行插入 Revision，第3行插入 EN-Revision
+  sed -i.bak -e "2i<!-- \$Revision\$ -->" \
+             -e "3i<!-- EN-Revision: $hash_val Maintainer: $maintainer Status: ready -->" "$zh_path"
+fi
 
-# 删除 sed 生成的备份文件
+# 删除备份文件
 rm -f "${zh_path}.bak"
 
-echo "🎉 全部完成！"
+echo -e "\n🎉 全部完成！标准格式已生成："
+echo "<!-- \$Revision\$ -->"
+echo "<!-- EN-Revision: $hash_val Maintainer: $maintainer Status: ready -->"

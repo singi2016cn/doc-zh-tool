@@ -60,24 +60,23 @@ echo "🔍 计算文件哈希..."
 hash_val=$(bin/en_file_hash.sh "$file_path")
 echo "✅ 哈希值：$hash_val"
 
-# ====================== 精准插入逻辑 ======================
+# ====================== 精准插入逻辑（两行贴紧，修复版） ======================
 echo "🔧 开始插入注释..."
 
-# 检查目标文件是否已存在 $Revision 行
 if grep -qF '<!-- $Revision$ -->' "$zh_path"; then
   echo "✅ 已存在 \$Revision\$，在下一行插入 EN-Revision"
-  # 在 $Revision 下一行插入
+  # 精准在 Revision 下一行插入
   sed -i.bak '/<!-- \$Revision\$ -->/a<!-- EN-Revision: '"$hash_val"' Maintainer: '"$maintainer"' Status: ready -->' "$zh_path"
 else
-  echo "✅ 不存在 \$Revision\$，在第2、3行插入两行"
-  # 第2行插入 Revision，第3行插入 EN-Revision
+  echo "✅ 不存在 \$Revision\$，在第2行连续插入两行注释"
+  # 核心修复：先插入第2行 Revision，再插入第2行（会自动挤到第3行）
   sed -i.bak -e "2i<!-- \$Revision\$ -->" \
-             -e "3i<!-- EN-Revision: $hash_val Maintainer: $maintainer Status: ready -->" "$zh_path"
+             -e "2i<!-- EN-Revision: $hash_val Maintainer: $maintainer Status: ready -->" "$zh_path"
 fi
 
 # 删除备份文件
 rm -f "${zh_path}.bak"
 
-echo -e "\n🎉 全部完成！标准格式已生成："
+echo -e "\n🎉 全部完成！注释已紧贴排列："
 echo "<!-- \$Revision\$ -->"
 echo "<!-- EN-Revision: $hash_val Maintainer: $maintainer Status: ready -->"

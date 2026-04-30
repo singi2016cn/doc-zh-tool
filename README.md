@@ -6,7 +6,7 @@
 
 初始化项目,参数是你的克隆中文仓库地址。
 
-```shell
+```bash
 curl -fsSL https://raw.githubusercontent.com/singi2016cn/doc-zh-tool/main/bin/init.sh | bash -s -- https://github.com/你的用户名/doc-zh.git
 ```
 
@@ -18,4 +18,12 @@ curl -fsSL https://raw.githubusercontent.com/singi2016cn/doc-zh-tool/main/bin/in
 |__en_file_hash.sh # 计算文件的 hash
 |__init.sh # 初始化项目
 |__list.sh # 列出 zh 不存在的文件
+```
+
+### 示例
+
+搜索 1 个还未翻译的文件，并自动填充 hash、维护者后，创建到 zh 目录下
+
+```bash
+bin/list.sh -s /bc | xargs bin/create_file.sh
 ```

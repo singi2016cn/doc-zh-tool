@@ -17,14 +17,14 @@ user-invocable: true
 - 中英文字词之间使用空格分开，与中文标点之间就不要有空格了
 - 不需要翻译的 xml 标签：function、constant、parameter、programlisting、programlisting、screen
 - 只要是 &xxx; xxx表示任意字符，只要满足这个规则的就不需要翻译。具体示例：&true;、&false;
-- 完成整个文件的翻译后，再运行 bash bin/check.sh 来验证语法，不要在翻译过程中频繁运行检查脚本
+- 完成整个文件的翻译后，再运行 php doc-base/configure.php 来验证语法，不要在翻译过程中频繁运行检查脚本
 
 ## 方法
 1. 读取 XML 文件以了解结构
 2. 识别需要翻译的英文文本，尽量一次性取去最大内容
 3. 按照规则将文本翻译为中文
 4. 编辑文件，将英文替换为中文，同时保留标签，完成整个文件的所有翻译
-5. 全部翻译完成后，运行 bash bin/check.sh 来检查语法错误
+5. 全部翻译完成后，运行 php doc-base/configure.php 来检查语法错误
 
 ## 输出格式
 确认翻译完成且语法检查通过，或报告检查脚本发现的问题。

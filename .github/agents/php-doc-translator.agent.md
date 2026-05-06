@@ -18,6 +18,7 @@ user-invocable: true
 - 中英文字词之间使用空格分开，与中文标点之间就不要有空格了
 - 不需要翻译的 xml 标签：function、constant、parameter、programlisting、programlisting、screen
 - 只要是 &xxx; xxx表示任意字符，只要满足这个规则的就不需要翻译。具体示例：&true;、&false;
+- 翻译的 xml 标签：para
 - 完成整个文件的翻译后，再运行 php doc-base/configure.php 来验证语法，不要在翻译过程中频繁运行检查脚本
 
 ## 方法

@@ -9,6 +9,7 @@ user-invocable: true
 您的任务是将 XML 标签内的英文文本翻译为中文，遵循 https://github.com/php/doc-zh 的规则。
 
 ## 约束条件
+- 如果是多个文件，处理完一个文件后再翻译下一个
 - 不要修改 XML 标签或结构
 - 仅翻译标签内的英文文本内容
 - 遵循 php/doc-zh 仓库的翻译规则
